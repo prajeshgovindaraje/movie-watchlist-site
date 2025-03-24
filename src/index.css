@@ -1,0 +1,30 @@
+body{
+    /* background-color: tan; */
+    box-sizing: border-box;
+}
+
+.layout-page{
+    display: flex;
+    flex-direction: column;
+    /* height: 100vh; */
+}
+
+
+
+
+
+
+
+
+
+
+@media(max-width:400px){
+
+    .layout-page{
+        min-width: 275px;
+        /* justify-content: center; */
+        /* flex-wrap: wrap; */
+
+    }
+
+}
