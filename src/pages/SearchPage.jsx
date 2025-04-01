@@ -11,7 +11,7 @@ export default function SearchPage(){
     const navigate = useNavigate()
      
     function onSearch(searchInp){
-        if(searchInp.trim()){
+        if(searchInp.trim()){ //removes all whitespace and check
             navigate("/resultPage",{state:{searchInp:searchInp}})
         }else{
             console.log("enter valid inp")

@@ -1,8 +1,7 @@
 
 import styles from "./MovieCard.module.css"
-export default function MovieCard({movieDetails,width="200px"}){
+export default function MovieCard({movieDetails,width="200px",handleMovieCardClick}){
 
-  console.log({width})
 
   
 
@@ -12,7 +11,7 @@ export default function MovieCard({movieDetails,width="200px"}){
       <>
 
         {/* //{width:width} => {width} */}
-        <div className={styles["movie-card-container"]} style={{width}}> 
+        <div className={styles["movie-card-container"]} style={{width}} onClick={()=>{handleMovieCardClick(movieDetails.imdbID)}}> 
           
           <div className={styles["movie-poster-div"]}>
             <img src={movieDetails.Poster}/>

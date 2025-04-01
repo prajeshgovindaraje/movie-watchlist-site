@@ -12,6 +12,12 @@ export default function SearchBar({onSearch,searchInput=""}){
         setInpVal(e.target.value)
     }
 
+    function handleEnterPress(e,inpVal){
+        if(e.key === "Enter"){
+            onSearch(inpVal)
+        }
+    }
+
   
 
 
@@ -43,8 +49,8 @@ export default function SearchBar({onSearch,searchInput=""}){
         <>
         <div className={styles["searchBar-container"]}>
             <img src={SearchIcon} className={styles["search-icon"]} />
-            <input type="text" className={styles["searchBar-input"]} placeholder={"Enter a movie to search"} value={inpVal} onChange={handleChange}/>
-            <button onClick={()=>{onSearch(inpVal)}} className={styles["searchBar-btn"]}>SEARCH</button>
+            <input type="text" className={styles["searchBar-input"]} onKeyUp={(e)=>{handleEnterPress(e,inpVal)}} placeholder={"Enter a movie to search"} value={inpVal} onChange={handleChange}/>
+            <button onClick={()=>{onSearch(inpVal)}}  className={styles["searchBar-btn"]}>SEARCH</button>
 
         </div>
         </>

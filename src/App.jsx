@@ -6,8 +6,10 @@ import ResultPage from "./pages/ResultPage.jsx"
 import Layout from "./components/Layout.jsx"
 import SearchPage from "./pages/SearchPage.jsx"
 import MovieCard from "./components/MovieCard/MovieCard.jsx"
+import MovieDetail from "./components/MovieDetail/MovieDetail.jsx"
 
 import { BrowserRouter,Router,Route, Routes } from "react-router"
+import MovieDetailPage from "./pages/MovieDetailPage.jsx"
 
 
 
@@ -16,14 +18,8 @@ export default function App(){
     
 
 
-    let styles = {
-        border:"1px solid red",
-        width:"70%",
-        height:"50px",
-        marginLeft:"auto",
-        marginRight:"auto"
+  
 
-    }
 
     return(
         <BrowserRouter>
@@ -32,6 +28,7 @@ export default function App(){
           <Route element={<Layout/>}>
             <Route index element={<SearchPage/>}  />
             <Route path="resultPage" element={<ResultPage/>}/>
+            <Route path="detailsPage" element={<MovieDetailPage/>}/>
 
 
           </Route>

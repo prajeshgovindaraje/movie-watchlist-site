@@ -4,13 +4,15 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import clsx from "clsx";
 import React from "react";
 
-import { useLocation } from "react-router";
+import { useLocation,useNavigate } from "react-router";
 
 import styles from "./ResultPage.module.css"
 
 export default function ResultPage(){
 
+      const navigate = useNavigate()
       const location = useLocation()
+      console.log("youe serrhced for: "+location.state.searchInp)
       const [searchInp,setSearchInp] = React.useState(location.state.searchInp)
       const [movieCardsArr,setMovieCardsArr] = React.useState([])
 
@@ -24,6 +26,13 @@ export default function ResultPage(){
 
 
       React.useEffect(()=>{
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        })
+
+        
 
         async function fetchData(){
           try{
@@ -67,11 +76,17 @@ export default function ResultPage(){
         setSearchInp(inpVal)
       }
 
+      //navigate to movie details page
+      function handleMovieCardClick(imdbId){
+        console.log("imdb id in result page: "+imdbId)
+        navigate("/detailsPage",{state:{imdbId:imdbId}})
+      }
+
      
 
     let tempMovieCardsArr = []
       for(let i = 0; i< movieCardsArr.length; i++){
-        tempMovieCardsArr.push(<MovieCard movieDetails={movieCardsArr[i]}  />)
+        tempMovieCardsArr.push(<MovieCard movieDetails={movieCardsArr[i]} handleMovieCardClick={handleMovieCardClick}  />)
       }
 
         return(

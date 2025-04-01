@@ -1,0 +1,38 @@
+
+
+.movie-details-container{
+    /* border: 4px solid yellow; */
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    padding: 1em 0;
+    background-color: #3E3E3E;
+}
+
+.details-section{
+    /* border: 1px solid blue; */
+    width: 85%;
+}
+
+
+.trailer-section{
+    width: 60%;
+    height:500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    /* border: 1px solid red; */
+}
+
+
+@media(max-width:400px){
+    .trailer-section{
+        height: auto;
+        width: 80%;
+    }
+    
+}
