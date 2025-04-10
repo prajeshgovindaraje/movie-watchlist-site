@@ -106,20 +106,7 @@
 
 }
 
-.add-to-watch-btn{
-    background-color: #FF2DF1;
-    border: 5px solid yellow;
-    margin-top: 1em;
-    padding: 0.7em 1.5em;
-    font-family: Tektur;
-    color: white;
-    display: block;
-    font-weight: 600;
-    /* border: none; */
-    align-self: flex-start;
-    margin-left: 2em;
-    
-}
+
 
 .bold{
     font-weight: 800;
@@ -203,11 +190,6 @@
         align-items: center;
     }
 
-    .add-to-watch-btn{
-        margin-left: 0;
-        align-self: center;
-        order:-1;
-        font-size: 0.8rem;
-    }
+   
 
 }

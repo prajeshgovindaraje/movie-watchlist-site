@@ -6,6 +6,8 @@ import styles from "./SearchBar.module.css"
 
 export default function SearchBar({onSearch,searchInput=""}){
 
+    console.log("seathc inp in watchlist page")
+    console.log(searchInput)
     const [inpVal,setInpVal] = React.useState(searchInput)
 
     function handleChange(e){

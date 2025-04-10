@@ -1,26 +1,27 @@
 
 import MovieCard from "../components/MovieCard/MovieCard";
 import SearchBar from "../components/SearchBar/SearchBar";
+import MovieCardList from "../components/MovieCardList/MovieCardList";
 import clsx from "clsx";
 import React from "react";
 
-import { useLocation,useNavigate } from "react-router";
+import { useLocation,useNavigate,useParams } from "react-router";
 
 import styles from "./ResultPage.module.css"
 
 export default function ResultPage(){
 
       const navigate = useNavigate()
-      const location = useLocation()
-      console.log("youe serrhced for: "+location.state.searchInp)
-      const [searchInp,setSearchInp] = React.useState(location.state.searchInp)
+      const {searchTerm:searchInp} = useParams() //renaming while destructuring. no particular reason.
+      console.log("youe serrhced for: "+searchInp)
+      // const [searchInp,setSearchInp] = React.useState(searchTerm)
       const [movieCardsArr,setMovieCardsArr] = React.useState([])
 
       const [isLoading,setIsLoading] = React.useState(false)
       const [isErrorInFetching,setIsErrorInFetching] = React.useState(false)
 
       //wanted to name this isDataFetched but it doesn't make complete sense, this is used to display the message only after api request is resolved
-      const [isResponseObtained,setIsResponseObtained] = React.useState(false) 
+      // const [isResponseObtained,setIsResponseObtained] = React.useState(false) //realised it is not needed because loading state can replace it.
 
       let message = `Search results for "${searchInp}"`
 
@@ -37,7 +38,7 @@ export default function ResultPage(){
         async function fetchData(){
           try{
             setIsLoading(true)
-            setIsResponseObtained(false)
+            // setIsResponseObtained(false)
 
             await new Promise(resolve => setTimeout(resolve, 3000)); //api fetch is fast so iam delaying to show my loading state
   
@@ -55,13 +56,13 @@ export default function ResultPage(){
 
             setIsErrorInFetching(false)
             setIsLoading(false)
-            setIsResponseObtained(true)
+            // setIsResponseObtained(true)
   
          } catch(err){
           setIsLoading(false)
           setIsErrorInFetching(true)
           setMovieCardsArr([])
-          setIsResponseObtained(true)
+          // setIsResponseObtained(true)
 
             console.log(err.message)
          }
@@ -69,17 +70,26 @@ export default function ResultPage(){
 
         fetchData()
         
-      },[searchInp])
+      },[searchInp]) //searchInp here is essential because, if a new movie is searched, we
+      // navigate again to same page with a updated url param. this will not make the useEffect to run again.
+      //react will not mount the component again it thinks we are still in the same component, if we navigate 
+      // again to the same page. To make the useEffect run again we make it dependent on the url param which is
+      // updated when navigated again.
+
 
 
       function onSearch(inpVal){
-        setSearchInp(inpVal)
+        if(searchInp.trim()){ //removes all whitespace and check
+          navigate(`/resultPage/${inpVal}`)
+      }else{
+          console.log("enter valid inp")
+      }
       }
 
       //navigate to movie details page
       function handleMovieCardClick(imdbId){
         console.log("imdb id in result page: "+imdbId)
-        navigate("/detailsPage",{state:{imdbId:imdbId}})
+        navigate(`/detailsPage/${imdbId}`,{state:{imdbId:imdbId}})
       }
 
      
@@ -92,15 +102,16 @@ export default function ResultPage(){
         return(
             <>
 
-            <main className={styles["result-page-main-container"]}>
-
-            <div className={styles[`search-bar-div`] +" "+ styles[clsx({"search-bar-div-blink-effect":isLoading})]}><SearchBar onSearch={onSearch} searchInput={location.state.searchInp}/></div>
-
-           {(isResponseObtained)?<p>{message}</p>:<p>Searching...</p>} 
-
-          { (!isErrorInFetching)? <div className={styles["movie-cards-container"]}> {tempMovieCardsArr} </div>:<h1>Holy cow!!</h1>}
-
-            </main>
+            <MovieCardList
+              isLoading={isLoading}  // isLoading,
+              searchInput={searchInp}    // onSearch,
+              onSearch={onSearch}    // searchInput,
+              messageAfterLoading={message}    // messageAfterLoading,
+               isError={isErrorInFetching}   // isError,
+                movieCardsArr={tempMovieCardsArr}  // movieCardsArr
+            
+            
+            />
             
             
             </>

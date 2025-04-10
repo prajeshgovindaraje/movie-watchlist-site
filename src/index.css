@@ -9,7 +9,27 @@ body{
     /* height: 100vh; */
 }
 
+.authentication-form-div{
+    /* width: 50%; */
+    position: fixed;
+    z-index: 99;
+    backdrop-filter: blur(8px);
+    top:0px;
+    left:0px;
+    bottom:0px;
+    right:0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
+}
+
+.authentication-form-div > form{
+    background-color: yellow;
+    width: 50%;
+   
+}
 
 
 

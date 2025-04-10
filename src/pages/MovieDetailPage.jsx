@@ -2,18 +2,30 @@
 import React from "react"
 import MovieDetail from "../components/MovieDetail/MovieDetail"
 import Trailer from "../components/Trailer/Trailer"
-import { useLocation } from "react-router"
+import { useLocation,useParams } from "react-router"
 import styles from "./MovieDetailPage.module.css"
 import "../components/Trailer/Trailer.css"
+import { AuthenticationContext } from "../components/Layout"
+import { useContext } from "react"
+
+
+import {db} from "../fireBaseConfig"
+import { doc,collection,updateDoc,getDoc,arrayUnion,arrayRemove } from "firebase/firestore"
 
 
 export default function MovieDetailPage(){
 
-          const location = useLocation()
+          const{authenticationStatus,setShowAuthenticationForm,userDetailsState} = useContext(AuthenticationContext)
+
+          const {movieID} = useParams() //gets the imdbID from the url
           const [movieDetail,setMovieDetail] = React.useState({})
           const [trailerKey, setTrailerKey] = React.useState("")
           const [loadingState,setLoadingState] = React.useState(true)
           const [errorState,setErrorState] = React.useState(false)
+          const [addedToWatchList,setAddedToWatchList] = React.useState(null)
+          const [addToWatchlistLoading,setAddToWatchlistLoading] = React.useState(null)
+          const userDetails = JSON.parse(localStorage.getItem("userDetails"))
+
 
           const optionsForTmdbApi = {
             mehod:"GET",
@@ -25,10 +37,20 @@ export default function MovieDetailPage(){
             },
             
         }
-          console.log("my imdb iddd: "+location.state.imdbId)
+          console.log("my imdb iddd: "+movieID)
 
+          let buttonText = ""
+          if(addToWatchlistLoading){
+            buttonText = "Loading..."
+          }
+          else if(addedToWatchList){
+            buttonText = "Remove from Watchlist"
+          }else if(!addedToWatchList){
+            buttonText = "Add to Watchlist"
+          } 
+    
     React.useEffect( ()=>{
-
+        
 
         window.scrollTo({
             top:0,
@@ -39,7 +61,9 @@ export default function MovieDetailPage(){
 
         async function fetchMovieDetail(){
             try{
-            const movieDataResponseFromOmdb = await fetch(`https://www.omdbapi.com/?apikey=ee5761a1&i=${location.state.imdbId}`) //movie details are good in omdbApi but no trailer vidoes
+
+
+            const movieDataResponseFromOmdb = await fetch(`https://www.omdbapi.com/?apikey=ee5761a1&i=${movieID}`) //movie details are good in omdbApi but no trailer vidoes
             const movieDataFromOmdb = await movieDataResponseFromOmdb.json() //this will be used to display movie details
             
             const mediaType = (movieDataFromOmdb.Type === "movie")?"movie" : "tv" //this is done to make api endpoints dynamic {tv,movie}
@@ -67,7 +91,11 @@ export default function MovieDetailPage(){
     
             setMovieDetail(movieDataFromOmdb)
             setTrailerKey(trailerURL.key)
+            await checkMovieAlreadyAdded(movieDataFromOmdb)
+
             setLoadingState(false)
+
+
             }
             catch(err){
 
@@ -77,14 +105,99 @@ export default function MovieDetailPage(){
     
            }
         }
+
+
+        async function checkMovieAlreadyAdded(moveDetails){
+            try{
+                const userRef = doc(db, "users", userDetailsState.uid) //user document refernce
+                const userData = (await getDoc(userRef)).data()
+
+                const isAdded = userData.watchList.some((movie)=>movie.imdbID === moveDetails.imdbID)
+
+                if(isAdded){
+                    setAddedToWatchList(true)
+                }
+                
+                console.log("movie is already in you watchlist")
+    
+    
+            }catch(err){
+                console.log("cannot checkMovieAlreadyAdded: "+err)
+    
+            }
+        }
+
     
             fetchMovieDetail()
+
 
        
 
 
 
     },[])
+
+
+    //handling add to watchlist button and remove from watchlist button
+    async function handleWatchListButton(){
+
+        if(!authenticationStatus){
+            setShowAuthenticationForm(true)
+            return
+        }
+
+
+
+        setAddToWatchlistLoading(true)
+
+        if(!addedToWatchList){
+
+            try{
+                const userRef = doc(db, "users", userDetailsState.uid);
+
+                await updateDoc(userRef, {
+                    watchList: arrayUnion(movieDetail)
+                });
+                console.log("moivie added")
+                setAddedToWatchList(true)
+                setAddToWatchlistLoading(false)
+
+
+            }catch(err){
+                console.log("cannot add to watchList: "+err)
+                setAddToWatchlistLoading(false)
+                setAddedToWatchList(false)
+
+
+
+            }
+
+
+        }else{
+
+            try{
+
+                const docRef = doc(db,"users",userDetailsState.uid)
+
+                await updateDoc(docRef,{
+                    watchList: arrayRemove(movieDetail)
+                    
+                })
+                console.log("moivie removed")
+                setAddedToWatchList(false)
+                setAddToWatchlistLoading(false)
+
+            }catch(err){
+                console.log("moivie cannot be removed")
+
+                console.log(err)
+                setAddToWatchlistLoading(false)
+                setAddedToWatchList(true)
+            }
+
+        }
+    }
+    
 
 
     return(
@@ -96,6 +209,12 @@ export default function MovieDetailPage(){
                 {errorState && <h1>Error fetching data</h1>}
                 {(!loadingState && !errorState) && <MovieDetail details = {movieDetail}/>}
                 </div>
+
+                {(!loadingState && !errorState) && 
+                     <button disabled={addToWatchlistLoading} className={styles["add-to-watch-btn"]} onClick={handleWatchListButton}>
+                        {buttonText}
+                    </button>
+                }
 
 
                 <div className={styles["trailer-section"]}>

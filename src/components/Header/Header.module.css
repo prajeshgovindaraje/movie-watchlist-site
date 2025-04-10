@@ -42,8 +42,72 @@ header-left */
     display: flex;
     align-items: center;
     margin-right: 5em;
+
+    position: relative;
     
     /* border: 1px solid brown; */
+
+}
+
+.user-details{
+    
+    position: absolute;
+    /* top:75%; */
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in, transform 0.5s ease-in ;
+    transform:translateY(65%);
+
+    /* border: 1px solid slateblue; */
+    pointer-events: none; /* prevents interaction when hidden */
+    z-index: 99;
+
+
+    
+}
+.user-details.show{
+    opacity: 1;
+    transform:translateY(75%);
+    pointer-events:all; /* prevents interaction when hidden */
+
+
+}
+.user-details > p{
+    padding: 0 1em;
+    margin: 0;
+    background-color: #F6DC43;
+    color: black;
+    border: 1px solid black;
+    border-radius: 100px;
+
+    
+    
+    
+
+}
+
+.selected-profile-icon{
+    background-color: #FF2DF1;
+    border-radius: 5px;
+    padding: 0.1em;
+}
+
+.logout-btn:hover{  
+    cursor: pointer;
+    color: #FF2DF1;
+}
+
+.user-details .user-name{
+    color: #FF2DF1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* text-align: start; */
+    font-family: Inter;
+    /* padding: 0.3em 0; */
+    /* display: block; */
+    
+    
 
 }
 

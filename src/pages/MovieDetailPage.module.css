@@ -28,11 +28,46 @@
     /* border: 1px solid red; */
 }
 
+.add-to-watch-btn{
+    background-color: #FF2DF1;
+    border: 5px solid yellow;
+    /* margin-top: 1em; */
+    padding: 0.7em 1.5em;
+    font-family: Tektur;
+    color: white;
+    display: block;
+    font-weight: 600;
+    /* border: none; */
+    /* margin-left: 2em; */
+    
+}
+
+.add-to-watch-btn:hover{
+    cursor: pointer;
+    background-color: #e323d7;
+
+}
+
+.add-to-watch-btn:disabled{
+
+    cursor: not-allowed;
+    background-color: #FF2DF1;
+
+    
+}
+
 
 @media(max-width:400px){
     .trailer-section{
         height: auto;
         width: 80%;
+    }
+
+    .add-to-watch-btn{
+        margin-left: 0;
+        align-self: center;
+        order:0;
+        font-size: 0.8rem;
     }
     
 }

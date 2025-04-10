@@ -47,7 +47,6 @@ export default function MovieDetail({details}){
 
                     </div>
 
-                    <button className={styles["add-to-watch-btn"]}>Add to Watchlist</button>
 
 
                 </div>
