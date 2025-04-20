@@ -40,7 +40,7 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
                 // setAuthenticationStatus(true)
                 // setShowAuthenticationForm(false) // these can be managed automatically by onAuthStateChange function in layout
 
-                if(triggeredFromWatchListText) navigate("/watchListPage") //else stay in the same page
+                if(triggeredFromWatchListText) navigate(`/watchListPage/${userDetails.user.uid}`) //else stay in the same page
 
                 const userDetailsInDb = {
                     email:userDetails.user.email,
@@ -64,7 +64,7 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
 
                 // console.log(userDetails)
 
-                if(triggeredFromWatchListText) navigate("/watchListPage") //else stay in the same page
+                if(triggeredFromWatchListText) navigate(`/watchListPage/${userDetails.user.uid}`) //else stay in the same page
                 //setAuthenticationStatus(true)     // these can be managed automatically by onAuthStateChange function in layout
                 //setShowAuthenticationForm(false)  //it is executed still because react doesn't navigate immediately . it waits unitl the function is completed.
 
@@ -113,7 +113,7 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
                 </div>
 
 
-                <button type="submit">{(formType==="login")?"login":"Create Account"}</button>
+                <button className="submit-btn" type="submit">{(formType==="login")?"login":"Create Account"}</button>
 
                 <p className="formType-switch" onClick={handleFormTypeSwitch}>{(formType==="login")?"No account ? then create one":"back to login"}</p>
 

@@ -1,27 +1,170 @@
-
-.dummy-form-container{
-    border:1px solid blue;
-    width: 500px;
-    margin: 0 auto;
-}
-
-.authentication-form{
-    border :1px solid red;
+/* Main color variables */
+:root {
+    --primary-color: #FF2DF1;
+    --secondary-color: #F6DC43;
+    --dark-bg: #1a1a1a;
+    --light-text: #ffffff;
+    --gray-text: #e0e0e0;
+    --gray-bg: #333333;
+    --gray-light: #555555;
+  }
+  
+  .authentication-form {
+    position: relative;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    background-color: var(--dark-bg);
+    box-shadow: 0 0 20px rgba(255, 45, 241, 0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    gap: 1em;
-
-    font-family: Tektur;
-}
-
-.authentication-form > div{
+    justify-content: center;
+    gap: 1.2em;
+    color: var(--light-text);
+    font-family: 'Tektur', sans-serif;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .authentication-form h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    text-shadow: 0 0 8px rgba(255, 45, 241, 0.5);
+  }
+  
+  .authentication-form > div {
     display: flex;
     flex-direction: column;
-}
-
-.formType-switch{
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .authentication-form input {
+    background-color: var(--gray-bg);
+    color: var(--light-text);
+    margin-top: 0.5em;
+    padding: 0.8em 1em;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+  
+  .authentication-form label {
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .authentication-form input:focus {
+    outline: none;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 8px rgba(255, 45, 241, 0.4);
+  }
+  
+  .authentication-form input::placeholder {
+    color: #aaaaaa;
+  }
+  
+  .submit-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #d612c3 100%);
+    border: none;
+    padding: 0.8em 1.5em;
+    font-family: 'Tektur', sans-serif;
+    color: var(--light-text);
+    display: block;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(255, 45, 241, 0.3);
+  }
+  
+  .submit-btn:hover {
+    cursor: pointer;
+    background: linear-gradient(135deg, #d612c3 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 45, 241, 0.5);
+  }
+  
+  .formType-switch {
+    color: var(--gray-text);
     text-decoration: underline;
-    margin: 0;
-}
+    margin: 1rem 0 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  
+  .formType-switch:hover {
+    color: var(--secondary-color);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--light-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .close-btn:hover {
+    background-color: var(--secondary-color);
+    color: var(--dark-bg);
+    transform: rotate(90deg);
+  }
+  
+  @media (max-width: 400px) {
+    .authentication-form {
+      width: 100%;
+      padding: 1.5rem 1rem;
+      border-radius: 8px;
+    }
+    
+    .authentication-form h2 {
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .authentication-form input {
+      padding: 0.6em;
+      font-size: 0.9rem;
+    }
+    
+    .authentication-form label {
+      font-size: 0.8rem;
+    }
+    
+    .submit-btn {
+      padding: 0.6em 1em;
+      font-size: 0.9rem;
+    }
+    
+    .close-btn {
+      height: 28px;
+      width: 28px;
+      font-size: 0.9rem;
+    }
+  }
