@@ -56,8 +56,8 @@ header-left */
     width: 100%;
     text-align: center;
     opacity: 0;
-    transition: opacity 0.3s ease-in, transform 0.5s ease-in ;
-    transform:translateY(65%);
+    transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out ;
+    /* transform:translateY(65%); */
 
     /* border: 1px solid slateblue; */
     pointer-events: none; /* prevents interaction when hidden */
@@ -68,7 +68,7 @@ header-left */
 }
 .user-details.show{
     opacity: 1;
-    transform:translateY(75%);
+    transform:translateY(95%);
     pointer-events:all; /* prevents interaction when hidden */
 
 
@@ -87,10 +87,29 @@ header-left */
 
 }
 
-.selected-profile-icon{
+.red-profile-icon{
+    border: 2px dashed #F6DC43;
+    background-color: red;
+    padding: 0.3em;
+    border-radius: 100px;
+    width: 12%;
+    margin: 0;
+    
+}
+.green-profile-icon{
+    border: 2px dashed #FF2DF1;
+    background-color: darkgreen;
+    padding: 0.3em;
+    border-radius: 100px;
+    
+}
+
+
+ .selected-profile-icon{
+    border: 2px dotted #FF2DF1;
     background-color: #FF2DF1;
-    border-radius: 5px;
-    padding: 0.1em;
+    padding: 0.3em;
+    border-radius: 100px;
 }
 
 .logout-btn:hover{  
@@ -159,8 +178,12 @@ header-left */
     }
 
     .header-right img{
-        width: 20%;
+        width: 10%;
+        border: none;
+        padding: 0.2;
     }
+
+    
     
     
 }

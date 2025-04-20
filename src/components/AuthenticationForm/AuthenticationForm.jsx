@@ -4,6 +4,7 @@ import React from "react"
 import { useContext } from "react"
 import { AuthenticationContext } from "../Layout"
 import { useNavigate } from "react-router"
+import clsx from "clsx"
 
 import {auth} from "../../fireBaseConfig.js"
 import {db} from "../../fireBaseConfig.js"
@@ -16,12 +17,13 @@ import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "fireb
 export default function AuthenticationForm({triggeredFromWatchListText}){
 
 
-
+    const [notificationMessage,setNotificationMessage] = React.useState(null)
 
     const [formType,setFormType] = React.useState("login")
     const navigate = useNavigate()
 
     const {setShowAuthenticationForm,setAuthenticationStatus} = React.useContext(AuthenticationContext)
+    const [isLoading,setIsLoading] = React.useState(null)
 
     // type="signup"
 
@@ -31,11 +33,17 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
         const email = formData.get("emailInp")
         const password = formData.get("passWordInp")
 
+
         try{
 
+            setIsLoading(true)
             if(formType === "signup"){
                 const userDetails = await createUserWithEmailAndPassword(auth,email , password)
                 console.log("sign up success::::")
+                setNotificationMessage("signup success !")
+                setIsLoading(false)
+
+
                 console.log(userDetails)
                 // setAuthenticationStatus(true)
                 // setShowAuthenticationForm(false) // these can be managed automatically by onAuthStateChange function in layout
@@ -59,7 +67,15 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
 
                 
             }else{
-                const userDetails = await signInWithEmailAndPassword(auth,email , password)
+
+                
+                    const userDetails = await signInWithEmailAndPassword(auth,email , password)
+                    setNotificationMessage("login success !")
+                    setIsLoading(false)
+
+
+                
+
                 console.log("login success::::")
 
                 // console.log(userDetails)
@@ -73,7 +89,10 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
 
 
         }catch(err){
-            console.log(err)
+            console.log(err.code)
+            setNotificationMessage("ERROR:"+" "+err.code)
+
+            setIsLoading(false)
         }
     }
 
@@ -95,6 +114,8 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
     return(
             <form className="authentication-form" action={handleSubmit}>
 
+                <div className={clsx("notification" , {"block":isLoading === false})}>{notificationMessage}</div>
+
                 {(formType==="signup")?<h2>Sign Up</h2>:<h2>Login</h2>}
 
                 {(formType === "signup") && <div>
@@ -113,7 +134,7 @@ export default function AuthenticationForm({triggeredFromWatchListText}){
                 </div>
 
 
-                <button className="submit-btn" type="submit">{(formType==="login")?"login":"Create Account"}</button>
+                <button className={clsx("submit-btn",{"blink-effect":isLoading})} type="submit">{(formType==="login")?"login":"Create Account"}</button>
 
                 <p className="formType-switch" onClick={handleFormTypeSwitch}>{(formType==="login")?"No account ? then create one":"back to login"}</p>
 

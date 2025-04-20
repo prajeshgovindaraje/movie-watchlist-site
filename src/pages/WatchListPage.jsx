@@ -97,7 +97,7 @@ export default function WatchListPage(){
     })
 
     const {authenticationStatus} = React.useContext(AuthenticationContext);
-    console.log(AuthenticationContext)
+    console.log(authenticationStatus)
 
     return(
         <>

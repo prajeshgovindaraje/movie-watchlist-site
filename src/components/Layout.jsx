@@ -27,7 +27,9 @@ export default function Layout(){
             if (user) {
                 console.log("inside onAuthChanged and user exists");
                 setAuthenticationStatus(true);
-                setShowAuthenticationForm(false);
+                setTimeout(()=>{
+                    setShowAuthenticationForm(false);
+                },1000)
     
                 // ✅ Fetch username from Firestore
                 const fetchUserDetails = async () => {
@@ -45,14 +47,18 @@ export default function Layout(){
                         }
                     } catch (error) {
                         console.error("Error fetching user details:", error);
+                        console.log("login falied notification can be shown!!! ")
+
                     }
                 };
     
                 fetchUserDetails();
+                console.log("login success notification can be shown!!! ")
             } else {
                 console.log("user logged out");
                 setAuthenticationStatus(false);
                 setUserDetailsState(null)
+
                 // localStorage.removeItem("userDetails");
             }
         });

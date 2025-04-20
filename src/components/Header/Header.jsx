@@ -1,7 +1,7 @@
 
 import styles from "./Header.module.css"
 import reelList from "../../assets/reelListLogo.png"
-import profileIcon from "../../assets/profileIcon.png"
+import  ProfileIcon  from "../../assets/profileIcon.png"
 import React from "react"
 import { useContext } from "react"
 import { AuthenticationContext } from "../Layout"
@@ -89,7 +89,7 @@ export default function Header({setTriggeredFromWatchListText}){
                 <div className={styles["header-right"]  }  onClick={handleClick}>
 
                 <p className="watch-list-text">WATCH LIST</p>
-                <img src={profileIcon} className={ styles[clsx(showUserDetails&&"selected-profile-icon")] } ref={userDetailsRef} />
+                <img src={ProfileIcon}  className={ styles[clsx(showUserDetails&&"selected-profile-icon",(!showUserDetails&&authenticationStatus)&&"green-profile-icon",(!showUserDetails&&!authenticationStatus)&&"red-profile-icon")] } ref={userDetailsRef} />
 
                {(authenticationStatus) && 
                 <div className={clsx(styles["user-details"], showUserDetails && styles["show"])}>

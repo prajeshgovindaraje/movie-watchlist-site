@@ -20,7 +20,7 @@ export default function MovieCardList({
         <div className={styles[`search-bar-div`] +" "+ styles[clsx({"search-bar-div-blink-effect":isLoading})]}><SearchBar onSearch={onSearch} searchInput={searchInput}/></div>
 
        {(!isLoading)?<p>{messageAfterLoading}</p>:<p>Searching...</p>} 
-       {(!isLoading) &&  <div className={styles["movie-cards-container"]}> {movieCardsArr} </div> }
+       {(!isLoading) &&  <div className={styles["movie-cards-container"]}> {(movieCardsArr.length > 0)?movieCardsArr:"NO MOVIES FOUND"} </div> }
 
       { (isError && !isLoading)&& <h1>Holy cow!!</h1>}
 
