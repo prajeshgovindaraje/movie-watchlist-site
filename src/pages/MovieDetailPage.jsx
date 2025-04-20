@@ -62,24 +62,25 @@ export default function MovieDetailPage(){
         async function fetchMovieDetail(){
             try{
 
+            console.log("media type")
 
             const movieDataResponseFromOmdb = await fetch(`https://www.omdbapi.com/?apikey=ee5761a1&i=${movieID}`) //movie details are good in omdbApi but no trailer vidoes
             const movieDataFromOmdb = await movieDataResponseFromOmdb.json() //this will be used to display movie details
             
-            const mediaType = (movieDataFromOmdb.Type === "movie")?"movie" : "tv" //this is done to make api endpoints dynamic {tv,movie}
-
+            const mediaType =  (movieDataFromOmdb.Type === "movie")?"movie" : "tv" //this is done to make api endpoints dynamic {tv,movie}
+            console.log("media type"+mediaType)
             const movieDataResponseFromTmdb = await fetch(`https://api.themoviedb.org/3/find/${movieDataFromOmdb.imdbID}?external_source=imdb_id`,optionsForTmdbApi) //need tmdb id for getting trailer videos. for getting tmdb id, need to find the movie in tmdbAPI. it is found using imdb id because we have imdb id.
 
             const movieDataFromTmdb = await movieDataResponseFromTmdb.json()
 
             const tmdbId = movieDataFromTmdb[`${mediaType}_results`][0].id //getting tmdb id fromt tmdb movie details. it is zero indexed because the response is an array which  will be always of size 1.
-
+            console.log("TMDB id: "+ tmdbId)
             const trailerVideoResponse = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbId}/videos?language=en`, optionsForTmdbApi) // here the videos related to the movie are obtained
             const trailerVideoData = await trailerVideoResponse.json()
 
             //the first video that is of type "trailer" is obtained
             const trailerURL = trailerVideoData.results.find(video =>{
-                if(video.type === "Trailer"){
+                if(video.type === "Trailer" || video.type === "Clip"){
                     return true
                 }
             })
